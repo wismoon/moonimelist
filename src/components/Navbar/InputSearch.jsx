@@ -4,14 +4,20 @@ import { MagnifyingGlass } from "@phosphor-icons/react"
 import { useRouter } from "next/navigation"
 import { useRef } from "react"
 
+
+/**
+ * this is where we make seach bar input
+ * and the logic behind the search
+ */
 const InputSearch = () => {
     
     const searchRef = useRef()
     const router = useRouter()
     const handleSearch = (event) => {
+        const keyword = searchRef.current.value
+        if (!keyword) return
         if (event.key === "Enter" || event.type === "click") {
             event.preventDefault()
-            const keyword = searchRef.current.value
             router.push(`/search/${keyword}`)
         }
     }
