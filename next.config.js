@@ -8,6 +8,10 @@ const nextConfig = {
             {
                 protocol: 'https',
                 hostname: 'cdn.myanimelist.net'
+            },
+            {
+               
+                hostname: 'avatars.githubusercontent.com'
             }
         ]
     }
