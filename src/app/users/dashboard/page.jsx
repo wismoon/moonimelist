@@ -4,6 +4,7 @@ import Link from 'next/link'
 import React from 'react'
 
 const Page = async () => {
+    //get data users if signin proccess data to dashboard
     const user = await authUserSession()
 
     return (

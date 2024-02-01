@@ -12,11 +12,15 @@ const Page = async() => {
 
   /**
    * using the reusable api
+   * using nested fetching data map in map where the api resource and where data map is 
    * where the main page need top anime data and query limit 8
    * and then the topAnime can be used as normal fetching
    */
   const topAnime = await getAnimeResponse("top/anime", "limit=8")
+  //recomAnime make into let so we can change data output
+  //recomAnime get data from nestedResponse where input is resources + entry
   let recomAnime = await getNestedResponse("recommendations/anime", "entry")
+  //data recomAnime get changed in function randomizeAnime where item get slice as random
   recomAnime = randomizeAnime(recomAnime, 8)
   return (
     <>

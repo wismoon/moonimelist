@@ -16,6 +16,7 @@ export const getAnimeResponse = async(resource, query) => {
     return anime
 }
 
+//nestedresponse where used for fetching data map inside map so we can just take the 
 export const getNestedResponse = async(resource, objetProperty) => {
     const response = await getAnimeResponse(resource)
     return response.data.flatMap(item => item[objetProperty])
