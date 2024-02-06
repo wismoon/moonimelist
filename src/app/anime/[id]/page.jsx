@@ -1,16 +1,32 @@
+"use client"
+
 import { getAnimeResponse } from '@/libs/api-libs'
 import VideoPlayer from '@/components/Utilities/VideoPlayer'
 import Image from 'next/image'
 import React from 'react'
+import { useRouter } from 'next/navigation'
+import { ArrowLeft } from "@phosphor-icons/react"
+import CollectionButton from '@/components/AnimeList/CollectionButton'
+import authUserSession from '@/libs/auth-libs'
 
 const Page = async ({ params: { id } }) => {
+    const route = useRouter()
     const anime = await getAnimeResponse(`anime/${id}`)
+    const user  = await authUserSession()
+    console.log(user)
     return (
         <>
-            <div className="pt-4 px-4">
-                <h1 className="text-color-primary text-2xl">
-                    {anime.data.title} - {anime.data.year}
-                </h1>
+            <div className="pt-4 px-2 mb-4  flex justify-between items-center">
+                <div className='flex'>
+                    <h1 className="text-color-primary text-2xl">
+                        {anime.data.title} - {anime.data.year}
+                    </h1>
+                    <CollectionButton />
+                </div>
+
+                <button onClick={() => route.back()} className='text-color-primary'>
+                    <ArrowLeft size={32} />
+                </button>
             </div>
             <div className="pt-4 px-4 flex gap-2 sm:flex-nowrap flex-wrap text-color-primary">
                 <Image
