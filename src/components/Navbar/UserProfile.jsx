@@ -1,11 +1,12 @@
-import authUserSession from '@/libs/auth-libs'
+
+import {authUserSession} from '@/libs/auth-libs'
 import Link from 'next/link'
 import React from 'react'
 
 const UserProfile = async () => {
     //get user auth from handle authUserSession
-    const user = await authUserSession()
-
+    const user = await authUserSession();
+    
     /**
      * logic for singin / signout text button
      * where if users login then print Sign Out else Sign In

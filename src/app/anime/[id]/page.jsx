@@ -1,19 +1,19 @@
-"use client"
-
 import { getAnimeResponse } from '@/libs/api-libs'
 import VideoPlayer from '@/components/Utilities/VideoPlayer'
 import Image from 'next/image'
 import React from 'react'
-import { useRouter } from 'next/navigation'
-import { ArrowLeft } from "@phosphor-icons/react"
 import CollectionButton from '@/components/AnimeList/CollectionButton'
-import authUserSession from '@/libs/auth-libs'
+import { authUserSession } from '@/libs/auth-libs'
+import prisma from '@/libs/prisma'
 
 const Page = async ({ params: { id } }) => {
-    const route = useRouter()
+
     const anime = await getAnimeResponse(`anime/${id}`)
-    const user  = await authUserSession()
-    console.log(user)
+    const user = await authUserSession()
+    const collection = await prisma.collection.findFirst({
+        where: { user_email: user?.email, anime_mal_id: id }
+    })
+
     return (
         <>
             <div className="pt-4 px-2 mb-4  flex justify-between items-center">
@@ -21,12 +21,15 @@ const Page = async ({ params: { id } }) => {
                     <h1 className="text-color-primary text-2xl">
                         {anime.data.title} - {anime.data.year}
                     </h1>
-                    <CollectionButton />
+                    {
+                        !collection && user &&
+                        <CollectionButton
+                            anime_mal_id={id}
+                            user_email={user?.email}
+                            anime_image={anime.data.images.jpg.image_url}
+                            anime_title={anime.data.title} />
+                    }
                 </div>
-
-                <button onClick={() => route.back()} className='text-color-primary'>
-                    <ArrowLeft size={32} />
-                </button>
             </div>
             <div className="pt-4 px-4 flex gap-2 sm:flex-nowrap flex-wrap text-color-primary">
                 <Image
